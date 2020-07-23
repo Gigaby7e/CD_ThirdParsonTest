@@ -19,13 +19,17 @@ namespace Player
 
         private void Update()
         {
-            InputFoMove();
+            PlayerMovement();
+            CameraMovement();
+        }
 
+        private void CameraMovement()
+        {
             _cinemachineCameraFreeLook.m_XAxis.m_InputAxisValue = _rightController.GetTouchPosition.x;
             _cinemachineCameraFreeLook.m_YAxis.m_InputAxisValue = _rightController.GetTouchPosition.y;
         }
 
-        private void InputFoMove()
+        private void PlayerMovement()
         {
             float horizontal = _leftController.GetTouchPosition.x;
             float vertical = _leftController.GetTouchPosition.y;
