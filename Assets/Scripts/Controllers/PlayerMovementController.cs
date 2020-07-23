@@ -1,7 +1,7 @@
 ﻿using Cinemachine;
 using UnityEngine;
 
-namespace Player
+namespace Controllers
 {
     public class PlayerMovementController : MonoBehaviour
     {
