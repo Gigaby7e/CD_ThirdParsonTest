@@ -17,6 +17,11 @@ namespace Controllers
 
         private void Update()
         {
+            Move();
+        }
+
+        private void Move()
+        {
             _palyerAnimatorController.SetFloat(MOVE, _moveController.GetTouchPosition.magnitude);
         }
     }

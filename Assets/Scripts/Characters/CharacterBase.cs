@@ -4,31 +4,57 @@ namespace Characters
 {
     public class CharacterBase : MonoBehaviour, IDamageRecipient
     {
-        [SerializeField] private int _maxHealthPoint;
-        [SerializeField] private int _currentHeathPoint;
-        
+        [SerializeField] protected int _maxHealthPoint;
+        [SerializeField] protected int _currentHeathPoint;
         [SerializeField] [Range(0, 1)] private float _armor;
+        [SerializeField] protected float _movementSpeed;
 
-        private float _movementSpeed;
+        private bool _isAlive = true;
+        public bool IsAlive { get => _isAlive; private set => _isAlive = value; }
+
+        public int CurrentHeathPoint 
+        { 
+            get => _currentHeathPoint;
+            set
+            {
+                _currentHeathPoint = value;
+                CheckHealth();
+            }
+        }
+
+
+        private void CheckHealth()
+        {
+            if (_currentHeathPoint <= 0)
+            {
+                Death();
+            }
+        }
 
         public virtual void Reset()
         {
-            _currentHeathPoint = _maxHealthPoint;
+            IsAlive = true;
+            CurrentHeathPoint = _maxHealthPoint;
         }
 
         public virtual void GetDamage(int damage)
         {
-            _currentHeathPoint = _currentHeathPoint - Mathf.RoundToInt(damage * _armor);
+            CurrentHeathPoint -= Mathf.RoundToInt(damage * _armor);
         }
 
         public virtual void RestoreHealt(int health)
         {
-            _currentHeathPoint += health;
+            CurrentHeathPoint += health;
 
-            if (_currentHeathPoint > _maxHealthPoint)
+            if (CurrentHeathPoint > _maxHealthPoint)
             {
-                _currentHeathPoint = _maxHealthPoint;
+                CurrentHeathPoint = _maxHealthPoint;
             }
+        }
+
+        public virtual void Death()
+        {
+            IsAlive = false;
         }
     }
 }

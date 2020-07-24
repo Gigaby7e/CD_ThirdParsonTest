@@ -8,7 +8,7 @@ public class MedKit : MonoBehaviour, ICollectableObject
     [SerializeField] private GameObject _visual;
     [SerializeField] private Collider _collider;
 
-    private bool _isVisible = true;
+    private bool _isVisible = false;
 
     public float LifeTime 
     { 
@@ -20,14 +20,6 @@ public class MedKit : MonoBehaviour, ICollectableObject
         } 
     }
 
-    private void Update()
-    {
-        if (_isVisible)
-        {
-            TimerUpdate();
-        }
-    }
-
     private void CheckLifeTime()
     {
         if (_currentLifeTime <= 0)
@@ -36,13 +28,17 @@ public class MedKit : MonoBehaviour, ICollectableObject
         }
     }
 
-    private void TimerUpdate()
+    public void TimerUpdate()
     {
-        LifeTime -= Time.deltaTime;
+        if (_isVisible)
+        {
+            LifeTime -= Time.deltaTime;
+        }
     }
 
     public void Show(bool isVisible)
     {
+        _currentLifeTime = _lifeTime;
         _collider.enabled = isVisible;
         _visual.SetActive(isVisible);
         _isVisible = isVisible;
