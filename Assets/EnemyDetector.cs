@@ -34,6 +34,9 @@ public class EnemyDetector : MonoBehaviour
             {
                 PlayerController.SetTarget(null);
             }
+
+
+            //todo clear current target when enemy is dead
         }
     }
 }

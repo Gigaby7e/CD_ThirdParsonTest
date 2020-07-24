@@ -11,9 +11,10 @@ namespace Characters
         [SerializeField] private PatrolPoints _patrolPoints;
         [SerializeField] private NavMeshPath _path;
         private NavMeshAgent _agent;
-        
+        private bool _isTargetPresent = false;
+
+        [SerializeField] Animator _animator;
         private Transform _target;
-        private bool _isTarget = false;
 
         private void Start()
         {
@@ -25,11 +26,18 @@ namespace Characters
         {
             CheckIsTarget();
             MoveTonextPosition();
+            Move();
+        }
+
+        private void Move()
+        {
+            //todo
+            _animator.SetFloat("Move", _agent.velocity.magnitude);
         }
 
         private void MoveTonextPosition()
         {
-            if (_agent.velocity == Vector3.zero)
+            if (_agent.velocity == Vector3.zero && IsAlive)
             {
                 MoveToRandomPoint();
             }
@@ -37,7 +45,7 @@ namespace Characters
 
         private void CheckIsTarget()
         {
-            if (_isTarget)
+            if (_isTargetPresent)
             {
                 _agent.isStopped = true;
             }
@@ -66,14 +74,14 @@ namespace Characters
         {
             if (other.CompareTag(TagManager.PLAYER))
             {
-                _isTarget = false;
+                _isTargetPresent = false;
             }
         }
 
         private void PlayerDetected(Transform playerTransform)
         {
             _target = playerTransform;
-            _isTarget = true;
+            _isTargetPresent = true;
         }
 
         public override void GetDamage(int damage)
@@ -85,9 +93,14 @@ namespace Characters
 
         public override void Death()
         {
-            base.Death();
-
-            gameObject.SetActive(false);
+            if (IsAlive)
+            {
+                base.Death();
+                _agent.isStopped = true;
+                
+                //todo
+                _animator.SetTrigger("Death");
+            }
         }
     }
 }
