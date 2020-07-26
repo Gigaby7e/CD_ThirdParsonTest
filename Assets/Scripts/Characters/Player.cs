@@ -20,17 +20,27 @@ namespace Characters
             Reset();
         }
 
-        private void OnTriggerEnter(UnityEngine.Collider other)
+        private void OnTriggerEnter(Collider other)
+        {
+            TryToCollect(other);
+        }
+
+        private void TryToCollect(Collider other)
         {
             if (other.GetComponent<ICollectableObject>() != null)
             {
                 if (other.CompareTag(TagManager.MEDKIT))
                 {
-                    var kit = other.GetComponent<ICollectableObject>();
-                    RestoreHealt(kit.Collect());
-                    kit.OnCollected();
+                    CollectMedKit(other);
                 }
             }
+        }
+
+        private void CollectMedKit(Collider other)
+        {
+            var kit = other.GetComponent<ICollectableObject>();
+            RestoreHealt(kit.Collect());
+            kit.OnCollected();
         }
 
         public void Fire()

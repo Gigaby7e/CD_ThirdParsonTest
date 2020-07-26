@@ -25,8 +25,8 @@ namespace Controllers
 
         private void CameraMovement()
         {
-            _cinemachineCameraFreeLook.m_XAxis.m_InputAxisValue = _rightController.GetTouchPosition.x;
-            _cinemachineCameraFreeLook.m_YAxis.m_InputAxisValue = _rightController.GetTouchPosition.y;
+            _cinemachineCameraFreeLook.m_XAxis.m_InputAxisValue = _rightController.GetTouchPosition.x * -1;
+            _cinemachineCameraFreeLook.m_YAxis.m_InputAxisValue = _rightController.GetTouchPosition.y * -1;
         }
 
         private void PlayerMovement()
